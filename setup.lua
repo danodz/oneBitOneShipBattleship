@@ -102,8 +102,8 @@ function setupUpdate()
         if currentPlayer.name == "Player 2" then
             inventorySprite:remove()
             invCursor.sprite:remove()
-            playingInit()
             playerChangeInit("playing")
+            playingInit()
         else
             leftGrid:setTiles(emptyGrid, 10)
             playerChangeInit("setup")

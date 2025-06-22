@@ -18,6 +18,10 @@ function setupInit(images)
         y=1,
         sprite= gfx.sprite.new(invCursorImg)
     }
+    invCursor.sprite:moveTo(
+        164+((invCursor.x-1)*18+invCursor.sprite.width/2)-2,
+        214
+    )
     invCursor.sprite:add()
     
     local inventoryTiles = {1,2,5,7}

@@ -51,6 +51,5 @@ function gameOverUpdate()
 
         circleSprite:remove()
         restartCrank = 0
-        playdate.wait(2000)
     end
 end

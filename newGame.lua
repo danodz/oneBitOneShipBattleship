@@ -44,7 +44,7 @@ function newGame()
     rightGridSprite:moveTo(positions.rightGrid.x,positions.rightGrid.y)
     
     gridMsg = ""
-    gridMsgSprite = txtSprite(positions.gridMsg.x,positions.gridMsg.y,200,25,function(sprite)
+    gridMsgSprite = txtSprite(positions.gridMsg.x,positions.gridMsg.y,250,25,function(sprite)
         sprite.currentText = gridMsg
     end)
     

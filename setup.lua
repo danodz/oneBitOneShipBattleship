@@ -5,7 +5,7 @@ local invCursor
 local inventory
 local inventorySprite
 local validGrid
-local boatLength
+local shipLength
 local crankMove
 local inventoryX
 function setupInit(images)
@@ -21,61 +21,54 @@ function setupInit(images)
     }
     invCursor.sprite:add()
     
-    local inventoryTiles = {1,2,5,7}
+    local inventoryTiles = {1,2,5}
     inventory = gfx.tilemap.new()
     inventory:setImageTable(images)
-    inventory:setTiles(inventoryTiles, 4)
+    inventory:setTiles(inventoryTiles, 3)
     inventorySprite = gfx.sprite.new(inventory)
     inventorySprite:setCenter(0,0)
     inventorySprite:moveTo(positions.inventory.x, positions.inventory.y)
     inventorySprite:add()
 
     validGrid = false
-    gridMsg = "Make your boat"
+    gridMsg = "Make your ship"
     crankMove = 0
 end
 
 function validateGrid(grid)
-    local totalCrabs = 0
-    local totalMermaids = 0
+    local totalDecoys = 0
 
-    local firstBoatX
-    local firstBoatY
-    local totalBoats = 0
+    local firstShipX
+    local firstShipY
+    local totalShips = 0
     local tiles = grid:getTiles()
     for i=0,9 do
         for j=1,10 do
             if tiles[i*10+j] == 2 then
-                totalBoats += 1
-                firstBoatX = i
-                firstBoatY = j
+                totalShips += 1
+                firstShipX = i
+                firstShipY = j
             elseif tiles[i*10+j] == 5 then
-                totalMermaids += 1
-            elseif tiles[i*10+j] == 7 then
-                totalCrabs += 1
+                totalDecoys += 1
             end
         end
     end
 
-    if totalMermaids > mermaidLimit and totalCrabs > crabLimit then
-        return false, "Too many mermaids and crabs"
-    elseif totalMermaids > mermaidLimit then
-        return false, "Too many mermaids"
-    elseif totalCrabs > crabLimit then
-        return false, "Too many crabs"
+    if totalDecoys > decoyLimit then
+        return false, "Too many decoys"
     end
 
-    if totalBoats < 2 then
-        return false, "Boat too small"
+    if totalShips < 2 then
+        return false, "Ship too small"
     end
-    if totalBoats > 10 then
-        return false, "Boat too big"
+    if totalShips > 10 then
+        return false, "Ship too big"
     end
 
-    local adjacentBoats = 0
+    local adjacentShips = 0
     function testTile(i,j)
         if( tiles[i*10+j] == 2 ) then
-            adjacentBoats += 1
+            adjacentShips += 1
             tiles[i*10+j] = -1
             addAdjacents(i,j)
         end
@@ -87,25 +80,25 @@ function validateGrid(grid)
         testTile(x,y+1)
     end
 
-    addAdjacents(firstBoatX,firstBoatY)
+    addAdjacents(firstShipX,firstShipY)
     
-    local valid = (adjacentBoats == totalBoats)
+    local valid = (adjacentShips == totalShips)
     if valid then
-        return true, "Grid is valid", totalBoats
+        return true, "Valid grid, press B to proceed", totalShips
     else
-        return false, "Too many boats", totalBoats
+        return false, "Too many Ships", totalShips
     end
 end
 
 function setupUpdate()
     if playdate.buttonJustPressed(playdate.kButtonA) then
         leftGrid:setTileAtPosition(cursor.x,cursor.y,inventory:getTiles()[invCursor.x])
-        validGrid, gridMsg, boatLength = validateGrid(leftGrid)
+        validGrid, gridMsg, shipLength = validateGrid(leftGrid)
     end
 
     if playdate.buttonJustPressed(playdate.kButtonB) and validGrid then
         currentPlayer.tiles = leftGrid:getTiles()
-        currentPlayer.boatLength = boatLength
+        currentPlayer.shipLength = shipLength
         cursor.x=1
         cursor.y=1
         invCursor.x=2
@@ -126,7 +119,7 @@ function setupUpdate()
     if change == 0 then
         crankMove = 0
     end
-    if crankMove >= 45 and invCursor.x < 4 then
+    if crankMove >= 45 and invCursor.x < 3 then
         crankMove = 0
         invCursor.x += 1
     end

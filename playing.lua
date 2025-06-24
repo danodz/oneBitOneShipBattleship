@@ -8,8 +8,11 @@ function playingInit()
     leftGrid:setTiles(currentPlayer.moves, 10)
     rightGridSprite:add()
     rightGrid:setTiles(currentPlayer.tiles, 10)
+
+    currentPlayerSprite:moveTo(positions.currentPlayerPlaying.x, positions.currentPlayerPlaying.y)
+    gridMsgSprite:moveTo(positions.gridMsgPlaying.x, positions.gridMsgPlaying.y)
 end
-local decoyTxts = {"On a mermaid", "On a crab"}
+local decoyTxts = {"On a mermaid", "On a crab", "On a seal", "On a garbage patch", "On a blowfish"}
 function playingUpdate()
     if playdate.buttonJustPressed(playdate.kButtonA) then
         local index = (cursor.y-1)*10 + cursor.x
@@ -25,7 +28,7 @@ function playingUpdate()
         else
             status = 3
             gridMsg = "It's a hit"
-            decoy = currentPlayer.enemy.tiles[index]+1
+            decoy = math.random(5)
         end
 
         currentPlayer.moves[index] = status
@@ -35,15 +38,15 @@ function playingUpdate()
 
         playdate.wait(2000)
         if decoy ~= 0 then
-            gridMsg = decoyTxts[decoy/2-2]
-            currentPlayer.moves[index] = decoy
-            currentPlayer.enemy.tiles[index] = decoy
+            gridMsg = decoyTxts[decoy]
+            currentPlayer.moves[index] = decoy + 5
+            currentPlayer.enemy.tiles[index] = decoy + 5
             leftGrid:setTiles(currentPlayer.moves, 10)
             gfx.sprite.update()
             playdate.wait(2000)
         end
 
-        if currentPlayer.totalHits == currentPlayer.enemy.boatLength then
+        if currentPlayer.totalHits == currentPlayer.enemy.shipLength then
             gameOverInit()
         else
             gridMsg = "Make your move"

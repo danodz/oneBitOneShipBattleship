@@ -16,9 +16,11 @@ positions = {
     setupGrid = {x=110,y=10},
     leftGrid = {x=10,y=10},
     rightGrid = {x=210,y=10},
-    currentPlayer = {x=10,y=200},
-    inventory = {x=110,y=202},
-    gridMsg = {x=190,y=200}
+    currentPlayer = {x=25,y=10},
+    currentPlayerPlaying = {x=6,y=200},
+    inventory = {x=30,y=202},
+    gridMsg = {x=105,y=200},
+    gridMsgPlaying = {x=206,y=200}
 }
 
 local menuImg = gfx.image.new(400,240, gfx.kColorWhite)
@@ -30,26 +32,15 @@ gfx.pushContext(menuImg)
 gfx.popContext()
 playdate.setMenuImage(menuImg)
 
-local sysMenu = playdate.getSystemMenu()
-mermaidLimit = 2
-crabLimit = 2
-nbList = {}
-for i=0,100 do
-    nbList[i+1]=i
-end
-sysMenu:addOptionsMenuItem("m limit", nbList, 3, function(limit)
-    mermaidLimit = tonumber(limit)
-end)
-sysMenu:addOptionsMenuItem("c limit", nbList, 3, function(limit)
-    crabLimit = tonumber(limit)
-end)
+decoyLimit = 5
 
 function txtSprite(x,y,width,height,update)
     local sprite = gfx.sprite.new()
     sprite:setSize(width, height)
     sprite.oldText = ""
     sprite.currentText = ""
-    sprite:moveTo(width/2+x,height/2+y)
+    sprite:setCenter(0,0)
+    sprite:moveTo(x,y)
     sprite:add()
     
     function sprite:update()

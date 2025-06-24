@@ -7,6 +7,7 @@ local inventorySprite
 local validGrid
 local boatLength
 local crankMove
+local inventoryX
 function setupInit(images)
     local invCursorImg = gfx.image.new(22, 22, gfx.kColorBlack)
     gfx.pushContext(invCursorImg)
@@ -18,10 +19,6 @@ function setupInit(images)
         y=1,
         sprite= gfx.sprite.new(invCursorImg)
     }
-    invCursor.sprite:moveTo(
-        164+((invCursor.x-1)*18+invCursor.sprite.width/2)-2,
-        214
-    )
     invCursor.sprite:add()
     
     local inventoryTiles = {1,2,5,7}
@@ -30,7 +27,7 @@ function setupInit(images)
     inventory:setTiles(inventoryTiles, 4)
     inventorySprite = gfx.sprite.new(inventory)
     inventorySprite:setCenter(0,0)
-    inventorySprite:moveTo(200-inventory:getPixelSize()/2,205)
+    inventorySprite:moveTo(positions.inventory.x, positions.inventory.y)
     inventorySprite:add()
 
     validGrid = false
@@ -39,23 +36,33 @@ function setupInit(images)
 end
 
 function validateGrid(grid)
+    local totalCrabs = 0
+    local totalMermaids = 0
+
     local firstBoatX
     local firstBoatY
     local totalBoats = 0
-    local searchingForFirst = true
     local tiles = grid:getTiles()
-    local str = ""
     for i=0,9 do
         for j=1,10 do
-            str = str..", "..tiles[i*10+j]
             if tiles[i*10+j] == 2 then
                 totalBoats += 1
-                if searchingForFirst then
-                    firstBoatX = i
-                    firstBoatY = j
-                end
+                firstBoatX = i
+                firstBoatY = j
+            elseif tiles[i*10+j] == 5 then
+                totalMermaids += 1
+            elseif tiles[i*10+j] == 7 then
+                totalCrabs += 1
             end
         end
+    end
+
+    if totalMermaids > mermaidLimit and totalCrabs > crabLimit then
+        return false, "Too many mermaids and crabs"
+    elseif totalMermaids > mermaidLimit then
+        return false, "Too many mermaids"
+    elseif totalCrabs > crabLimit then
+        return false, "Too many crabs"
     end
 
     if totalBoats < 2 then
@@ -129,7 +136,7 @@ function setupUpdate()
     end
 
     invCursor.sprite:moveTo(
-        164+((invCursor.x-1)*18+invCursor.sprite.width/2)-2,
-        214
+        positions.inventory.x + ((invCursor.x-1)*18+invCursor.sprite.width/2)-2,
+        positions.inventory.y + ((invCursor.y-1)*18+invCursor.sprite.height/2)-2
     )
 end

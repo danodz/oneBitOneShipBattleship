@@ -12,6 +12,38 @@ import "newGame"
 local gfx <const> = playdate.graphics
 local geo <const> = playdate.geometry
 
+positions = {
+    setupGrid = {x=110,y=10},
+    leftGrid = {x=10,y=10},
+    rightGrid = {x=210,y=10},
+    currentPlayer = {x=10,y=200},
+    inventory = {x=110,y=202},
+    gridMsg = {x=190,y=200}
+}
+
+local menuImg = gfx.image.new(400,240, gfx.kColorWhite)
+local menuMargin = 5
+
+gfx.pushContext(menuImg)
+    gfx.setColor(gfx.kColorBlack)
+    gfx.drawText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus interdum velit eros, a auctor purus tincidunt non. Ut cursus leo nisl, malesuada finibus neque sagittis non. Aenean non molestie lacus. Nam egestas, mauris sollicitudin porttitor faucibus, est turpis consequat nisl", menuMargin, menuMargin, 200-menuMargin, 240-menuMargin)
+gfx.popContext()
+playdate.setMenuImage(menuImg)
+
+local sysMenu = playdate.getSystemMenu()
+mermaidLimit = 2
+crabLimit = 2
+nbList = {}
+for i=0,100 do
+    nbList[i+1]=i
+end
+sysMenu:addOptionsMenuItem("m limit", nbList, 3, function(limit)
+    mermaidLimit = tonumber(limit)
+end)
+sysMenu:addOptionsMenuItem("c limit", nbList, 3, function(limit)
+    crabLimit = tonumber(limit)
+end)
+
 function txtSprite(x,y,width,height,update)
     local sprite = gfx.sprite.new()
     sprite:setSize(width, height)

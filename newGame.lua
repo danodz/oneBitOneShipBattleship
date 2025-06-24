@@ -25,16 +25,15 @@ function newGame()
     initPlayer(player1,player2,"Player 1")
     initPlayer(player2,player1,"Player 2")
     
-    currentPlayerSprite = txtSprite(10,200,150,25,function(sprite)
+    currentPlayerSprite = txtSprite(positions.currentPlayer.x,positions.currentPlayer.y,150,25,function(sprite)
         sprite.currentText = currentPlayer.name
     end)
-    
     leftGrid = gfx.tilemap.new()
     leftGrid:setImageTable(images)
     leftGrid:setTiles(emptyGrid, 10)
     leftGridSprite = gfx.sprite.new(leftGrid)
     leftGridSprite:setCenter(0,0)
-    leftGridSprite:moveTo(200-leftGridSprite.width/2,10)
+    leftGridSprite:moveTo(positions.setupGrid.x,positions.setupGrid.y)
     leftGridSprite:add()
     
     rightGrid = gfx.tilemap.new()
@@ -42,10 +41,10 @@ function newGame()
     rightGrid:setTiles(emptyGrid, 10)
     rightGridSprite = gfx.sprite.new(rightGrid)
     rightGridSprite:setCenter(0,0)
-    rightGridSprite:moveTo(210,10)
+    rightGridSprite:moveTo(positions.rightGrid.x,positions.rightGrid.y)
     
     gridMsg = ""
-    gridMsgSprite = txtSprite(250,200,150,25,function(sprite)
+    gridMsgSprite = txtSprite(positions.gridMsg.x,positions.gridMsg.y,200,25,function(sprite)
         sprite.currentText = gridMsg
     end)
     

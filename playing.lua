@@ -3,7 +3,7 @@ local geo <const> = playdate.geometry
 
 function playingInit()
     gridMsg = "Make your move"
-    leftGridSprite:moveTo(10,10)
+    leftGridSprite:moveTo(positions.leftGrid.x, positions.leftGrid.y)
     cursor.offset=leftGridSprite.x,
     leftGrid:setTiles(currentPlayer.moves, 10)
     rightGridSprite:add()

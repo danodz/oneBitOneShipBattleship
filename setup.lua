@@ -8,7 +8,8 @@ local validGrid
 local shipLength
 local crankMove
 local inventoryX
-function setupInit(images)
+function setupInit()
+    
     local invCursorImg = gfx.image.new(22, 22, gfx.kColorBlack)
     gfx.pushContext(invCursorImg)
         gfx.setColor(gfx.kColorWhite)
@@ -23,7 +24,7 @@ function setupInit(images)
     
     local inventoryTiles = {1,2,5}
     inventory = gfx.tilemap.new()
-    inventory:setImageTable(images)
+    inventory:setImageTable(tileImages())
     inventory:setTiles(inventoryTiles, 3)
     inventorySprite = gfx.sprite.new(inventory)
     inventorySprite:setCenter(0,0)
@@ -111,6 +112,9 @@ function setupUpdate()
         else
             leftGrid:setTiles(emptyGrid, 10)
             playerChangeInit("setup")
+            validGrid = false
+            gridMsg = "Make your ship"
+            crankMove = 0
         end
     end
 

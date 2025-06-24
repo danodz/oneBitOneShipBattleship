@@ -12,7 +12,7 @@ function newGame()
         emptyGrid[i]=1
     end
     
-    local images = tileImages()
+    images = tileImages()
     local player1={}
     local player2={}
     currentPlayer = player1
@@ -66,5 +66,5 @@ function newGame()
     )
     cursor.sprite:add()
     
-    setupInit(images)
+    setupInit()
 end

@@ -31,6 +31,10 @@ function playingUpdate()
                 gridMsg = "It's a hit"
                 decoy = math.random(5)
             end
+            lastMove = {
+                x = cursor.x * 18 + positions.rightGrid.x - 9,
+                y = cursor.y * 18 + positions.rightGrid.y - 9 
+            }
     
             currentPlayer.moves[index] = status
             currentPlayer.enemy.tiles[index] = status

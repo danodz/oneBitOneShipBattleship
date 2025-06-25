@@ -7,6 +7,7 @@ local geo <const> = playdate.geometry
 
 function newGame()
     gameState = "setup"
+    lastMove = false
     emptyGrid = {}
     for i=1,100 do
         emptyGrid[i]=1

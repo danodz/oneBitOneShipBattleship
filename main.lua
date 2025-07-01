@@ -8,6 +8,7 @@ import "playing"
 import "playerChange"
 import "gameOver"
 import "newGame"
+import "instructions"
 
 local gfx <const> = playdate.graphics
 local geo <const> = playdate.geometry
@@ -31,6 +32,10 @@ gfx.pushContext(menuImg)
     gfx.drawText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus interdum velit eros, a auctor purus tincidunt non. Ut cursus leo nisl, malesuada finibus neque sagittis non. Aenean non molestie lacus. Nam egestas, mauris sollicitudin porttitor faucibus, est turpis consequat nisl", menuMargin, menuMargin, 200-menuMargin, 240-menuMargin)
 gfx.popContext()
 playdate.setMenuImage(menuImg)
+
+playdate.getSystemMenu():addMenuItem("Instructions", function()
+    instructionsInit()
+end)
 
 decoyLimit = 5
 
@@ -61,35 +66,39 @@ end
 newGame()
 
 function playdate.update()
-    if playdate.buttonJustPressed(playdate.kButtonUp) and cursor.y > 1 then
-        cursor.y -= 1
-    end
-
-    if playdate.buttonJustPressed(playdate.kButtonDown) and cursor.y < 10 then
-        cursor.y += 1
-    end
-
-    if playdate.buttonJustPressed(playdate.kButtonLeft) and cursor.x > 1 then
-        cursor.x -= 1
-    end
-
-    if playdate.buttonJustPressed(playdate.kButtonRight) and cursor.x < 10 then
-        cursor.x += 1
-    end
+    if gameState == "instructions" then
+        instructionsUpdate()
+    else
+        if playdate.buttonJustPressed(playdate.kButtonUp) and cursor.y > 1 then
+            cursor.y -= 1
+        end
     
-    cursor.sprite:moveTo(
-        (cursor.x-1)*18+cursor.sprite.width/2 - 2 + cursor.offset,
-        (cursor.y-1)*18+cursor.sprite.height - 3
-    )
-
-    if gameState == "setup" then
-        setupUpdate()
-    elseif gameState == "playing" then
-        playingUpdate()
-    elseif gameState == "playerChange" then
-        playerChangeUpdate()
-    elseif gameState == "gameOver" then
-        gameOverUpdate()
+        if playdate.buttonJustPressed(playdate.kButtonDown) and cursor.y < 10 then
+            cursor.y += 1
+        end
+    
+        if playdate.buttonJustPressed(playdate.kButtonLeft) and cursor.x > 1 then
+            cursor.x -= 1
+        end
+    
+        if playdate.buttonJustPressed(playdate.kButtonRight) and cursor.x < 10 then
+            cursor.x += 1
+        end
+        
+        cursor.sprite:moveTo(
+            (cursor.x-1)*18+cursor.sprite.width/2 - 2 + cursor.offset,
+            (cursor.y-1)*18+cursor.sprite.height - 3
+        )
+    
+        if gameState == "setup" then
+            setupUpdate()
+        elseif gameState == "playing" then
+            playingUpdate()
+        elseif gameState == "playerChange" then
+            playerChangeUpdate()
+        elseif gameState == "gameOver" then
+            gameOverUpdate()
+        end
     end
     
     gfx.sprite.update()

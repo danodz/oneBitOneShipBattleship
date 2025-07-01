@@ -46,15 +46,13 @@ function playerChangeUpdate()
             hitEffectSprite:moveTo(lastMove.x, lastMove.y)
             hitEffectSprite:add()
     
-            local timer
-            function shrink()
+            playdate.timer.keyRepeatTimerWithDelay(10,10, function(timer)
                 hitEffectSprite:setScale( hitEffectSprite:getScale()+0.1)
                 if hitEffectSprite:getScale() >= 2.5 then
                     hitEffectSprite:remove()
                     timer:remove()
                 end
-            end
-            timer = playdate.timer.keyRepeatTimerWithDelay(10,10,shrink)
+            end)
         end
     end
 end

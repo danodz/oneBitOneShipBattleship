@@ -6,36 +6,101 @@ local returnState = gameState
 local overlay = gfx.image.new(400,240, gfx.kColorWhite)
 local overlaySprite = gfx.sprite.new(overlay)
 overlaySprite:setCenter(0,0)
+overlaySprite:setZIndex(4)
 
-local instrTxt = gfx.image.new(400,10000, gfx.kColorWhite)
-gfx.pushContext(instrTxt)
-    gfx.setColor(gfx.kColorBlack)
-    gfx.drawText([[
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque, lacus ac feugiat accumsan, est massa dapibus tortor, et vestibulum dolor ante eget turpis. Curabitur ultrices aliquam felis sed lacinia. Sed feugiat felis eu facilisis dictum. Ut et fringilla ex. Donec congue condimentum neque, vitae condimentum lorem viverra sit amet. Sed at massa nec nibh condimentum volutpat. Suspendisse potenti. Nulla fermentum odio est, eget dictum lectus vestibulum bibendum. Sed vitae risus mollis, tempor velit ut, ornare libero. Aliquam nec tellus posuere, gravida orci suscipit, tincidunt augue. Sed semper, purus in hendrerit interdum, leo orci vehicula massa, ut pretium orci nibh ac odio. Sed ac pharetra odio, sed tincidunt velit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum non turpis at purus congue placerat et et mauris. Mauris volutpat efficitur odio.
+local font = gfx.font.new("fonts/Pedallica/font-pedallica")
+local part1 = gfx.imageWithText([[
+*Instructions*
 
-Nunc non tellus porttitor, luctus elit et, dictum nisi. Proin pellentesque libero ac sollicitudin rutrum. Aenean et risus ac libero blandit porta. Mauris risus sem, ornare a ex nec, blandit malesuada risus. Praesent vitae nunc leo. Morbi non rhoncus nisl. Cras tristique urna ex, et hendrerit nisl sollicitudin feugiat. Aliquam in lorem nunc. Vestibulum felis lectus, venenatis sit amet diam quis, luctus luctus eros. Proin eget sapien aliquam, congue mi non, luctus urna. Nunc risus dui, imperdiet eu elit vel, feugiat lacinia lorem.
+1-bit-1-ship-battleship plays very similarly to regular battleship, with a few twists!
 
-Nulla vitae neque elit. Curabitur eget odio eu leo pulvinar maximus. Sed vitae sollicitudin magna. Nunc mi purus, luctus quis tristique eget, auctor a sem. Duis lacinia faucibus ligula, at dapibus arcu egestas eu. Nulla eu sem cursus, ultrices lacus sed, ultrices massa. Vestibulum et quam in lacus tincidunt pulvinar nec eu ex. Nam varius eget erat vitae posuere. Vivamus vel lacus vehicula, egestas metus sed, suscipit elit. Suspendisse mollis ligula tortor, at eleifend arcu molestie cursus. In eu venenatis velit, non ultricies eros. Duis eu libero feugiat, varius quam fermentum, lacinia nulla. Aliquam lobortis sodales enim, vitae laoreet tellus. Duis ac nisi semper, vestibulum purus non, finibus tellus. Nam quis tristique leo, sed egestas tellus.
+*First phase of the game: board setup*
+-Use the crank to select the type of tile to place. ]], 380, 10000)
+local tileSelectionGif = gfx.imagetable.new("images/tileSelection")
+local part2 = gfx.animation.loop.new(50,tileSelectionGif)
+local part3 = gfx.imageWithText([[
+-Move around your cursor on the board. Press A to place a tile.
 
-Aenean cursus blandit molestie. Proin molestie metus at eros laoreet, a consequat erat convallis. Donec sit amet lobortis diam, sit amet ultrices neque. Nullam eu leo faucibus, suscipit dolor sit amet, pellentesque ex. Nulla convallis ut nisl et faucibus. Mauris ut hendrerit orci. Donec sed leo ac erat tempor rhoncus a in diam. Duis nec nulla turpis. Ut non suscipit ex, et maximus diam. Nullam nunc sapien, pulvinar sed commodo ac, posuere in ligula. Fusce accumsan nisl vitae mauris auctor congue. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+-White = empty tile; Black = ship; D = decoy
 
-Nunc in varius eros, pharetra ultricies mi. Curabitur at turpis sed leo dapibus dapibus. Aenean luctus, diam sit amet porttitor pharetra, dui neque facilisis tortor, vel volutpat massa magna id dolor. Nam vel varius tellus. Etiam mattis massa at scelerisque interdum. Praesent nec malesuada enim. Nam vel nisl a nisl hendrerit malesuada non eu justo. Phasellus fermentum ipsum enim, eget maximus sapien consequat vel. Integer blandit quam vitae accumsan ultrices. Quisque eu cursus est, id posuere quam. ]], 10, 10, 380, 10000)
-gfx.popContext()
-local instrSprite = gfx.sprite.new(instrTxt)
-instrSprite:setCenter(0,0)
+-All the tiles from your ship have to be adjacent.
+
+-Your ship has to be between 2 and 10 tiles big.
+
+-Your ship doesn’t need to be a straight line! As long as all tiles are adjacent to at least another one, it’s valid!
+]], 380, 10000)
+local part4 = gfx.image.new("images/exampleShips")
+local part5 = gfx.imageWithText([[
+
+-Decoys will show a “It’s a hit!” message when discovered by the other player, before revealing what they truly are. They’re only there to play with the player’s heart!
+]], 380, 10000)
+local decoyGif = gfx.imagetable.new("images/decoy")
+local part6 = gfx.animation.loop.new(100,decoyGif)
+local part7 = gfx.imageWithText([[
+
+-Decoys are optional. You can place a maximum of 5. They can be placed anywhere.
+
+Second phase of the game: find the enemy’s boat
+This part plays exactly like regular battleship! 
+
+-Move around your cursor on the board. Press A when you want to check a tile. 
+
+-On the right part of the screen, you can see what the other player has found out about your board so far.
+
+-Once you’ve completely uncovered your enemy’s ship, you win!
+
+
+
+Credits:
+Programming and Game Design: Erwan LeBlanc
+Game Design and Community Management: Rafiki
+]], 380, 10000)
+
+function imagesColumn(images)
+    local sprites = {}
+    local height = 20
+    for _,image in ipairs(images) do
+        local sprite = gfx.sprite.new(image)
+        sprite:setCenter(0,0)
+        sprite:moveTo(10,height)
+        sprite:setZIndex(5)
+        table.insert(sprites,sprite)
+        if image.getSize then
+            local _,imgHeight = image:getSize()
+            height += imgHeight
+        else
+            local _,imgHeight = image:image():getSize()
+            height += imgHeight
+            sprite.update = function()
+                sprite:setImage(image:image())
+            end
+        end
+    end
+    return sprites, height
+end
+
+local instrSprites, maxScroll = imagesColumn({part1, part2, part3, part4, part5, part6, part7 })
+
 function instructionsInit()
     overlaySprite:add()
-    instrSprite:add()
-    instrSprite:moveTo(0,0)
+    for _,sprite in ipairs(instrSprites) do
+        sprite:add()
+    end
     returnState = gameState
     gameState = "instructions"
 end
 
 function instructionsUpdate()
     if playdate.buttonJustPressed(playdate.kButtonB) then
-        instrSprite:remove()
+        for _,sprite in ipairs(instrSprites) do
+            sprite:remove()
+        end
         overlaySprite:remove()
         gameState = returnState
     end
-    instrSprite:moveTo(0, instrSprite.y - playdate.getCrankChange())
+    if instrSprites[1].y-playdate.getCrankChange() < 100 and instrSprites[1].y-playdate.getCrankChange() > (-maxScroll)+100 then
+        for _,sprite in ipairs(instrSprites) do
+            sprite:moveBy(0, -playdate.getCrankChange())
+        end
+    end
 end

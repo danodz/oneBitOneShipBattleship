@@ -6,7 +6,7 @@ gfx.pushContext(overlayImg)
     gfx.drawTextInRect("Press B to continue",0,100, 400, 240, nil, nil, kTextAlignment.center)
 gfx.popContext()
 local overlaySprite = gfx.sprite.new(overlayImg)
-overlaySprite:setZIndex(1000)
+overlaySprite:setZIndex(2)
 overlaySprite:moveTo(200,120)
 local returnState
 local previousState

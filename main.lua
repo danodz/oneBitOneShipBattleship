@@ -2,6 +2,7 @@ import "CoreLibs/object"
 import "CoreLibs/graphics"
 import "CoreLibs/sprites"
 import "CoreLibs/timer"
+import "CoreLibs/animation"
 import "tileImages"
 import "setup"
 import "playing"
@@ -27,14 +28,10 @@ positions = {
 local menuImg = gfx.image.new(400,240, gfx.kColorWhite)
 local menuMargin = 5
 
-gfx.pushContext(menuImg)
-    gfx.setColor(gfx.kColorBlack)
-    gfx.drawText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus interdum velit eros, a auctor purus tincidunt non. Ut cursus leo nisl, malesuada finibus neque sagittis non. Aenean non molestie lacus. Nam egestas, mauris sollicitudin porttitor faucibus, est turpis consequat nisl", menuMargin, menuMargin, 200-menuMargin, 240-menuMargin)
-gfx.popContext()
-playdate.setMenuImage(menuImg)
-
 playdate.getSystemMenu():addMenuItem("Instructions", function()
-    instructionsInit()
+    if gameState ~= "instructions" and gameState ~= "playerChange" then
+        instructionsInit()
+    end
 end)
 
 decoyLimit = 5

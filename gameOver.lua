@@ -25,7 +25,7 @@ function gameOverInit()
 
     circleSprite = gfx.sprite.new()
     circleSprite:moveTo(200,120)
-    circleSprite:setZIndex(1000)
+    circleSprite:setZIndex(3)
     circleSprite:add()
 end
 

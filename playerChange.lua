@@ -12,7 +12,9 @@ local returnState
 local btnCount=0
 
 function playerChangeInit(state)
-    gameState = "playerChange"
+    if gameState ~= "instructions" then
+        gameState = "playerChange"
+    end
     currentPlayer = currentPlayer.enemy
     overlaySprite:add()
     returnState = state

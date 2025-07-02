@@ -29,7 +29,7 @@ local menuImg = gfx.image.new(400,240, gfx.kColorWhite)
 local menuMargin = 5
 
 playdate.getSystemMenu():addMenuItem("Instructions", function()
-    if gameState ~= "instructions" and gameState ~= "playerChange" then
+    if gameState ~= "instructions" then
         instructionsInit()
     end
 end)

@@ -41,7 +41,7 @@ function playingUpdate()
             leftGrid:setTiles(currentPlayer.moves, 10)
             gfx.sprite.update()
     
-            gameState = "idle"
+            gameState = "playerChangeWait"
             if decoy ~= 0 then
                 playdate.timer.performAfterDelay(2000, function()
                     gridMsg = decoyTxts[decoy]

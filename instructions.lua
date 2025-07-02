@@ -86,7 +86,11 @@ function instructionsInit()
     for _,sprite in ipairs(instrSprites) do
         sprite:add()
     end
-    returnState = gameState
+    if gameState == "playerChangeWait" then
+        returnState = "playerChange"
+    else
+        returnState = gameState
+    end
     gameState = "instructions"
 end
 

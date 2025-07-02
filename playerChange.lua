@@ -9,11 +9,9 @@ local overlaySprite = gfx.sprite.new(overlayImg)
 overlaySprite:setZIndex(2)
 overlaySprite:moveTo(200,120)
 local returnState
-local previousState
 local btnCount=0
 
 function playerChangeInit(state)
-    previousState = gameState
     gameState = "playerChange"
     currentPlayer = currentPlayer.enemy
     overlaySprite:add()
@@ -21,13 +19,7 @@ function playerChangeInit(state)
 end
 
 function playerChangeUpdate()
-    local btn
-    if previousState == "setup" then
-        btn = playdate.buttonJustPressed(playdate.kButtonB)
-    elseif previousState == "playing" then
-        btn = playdate.buttonIsPressed(playdate.kButtonB)
-    end
-    if btn then
+    if playdate.buttonJustPressed(playdate.kButtonB) then
         cursor.x=1
         cursor.y=1
         overlaySprite:remove()

@@ -41,23 +41,32 @@ function playingUpdate()
             leftGrid:setTiles(currentPlayer.moves, 10)
             gfx.sprite.update()
     
-            playdate.wait(2000)
+            gameState = "idle"
             if decoy ~= 0 then
-                gridMsg = decoyTxts[decoy]
-                currentPlayer.moves[index] = decoy + 5
-                currentPlayer.enemy.tiles[index] = decoy + 5
-                leftGrid:setTiles(currentPlayer.moves, 10)
-                gfx.sprite.update()
-                playdate.wait(2000)
-            end
-    
-            if currentPlayer.totalHits == currentPlayer.enemy.shipLength then
-                gameOverInit()
+                playdate.timer.performAfterDelay(2000, function()
+                    gridMsg = decoyTxts[decoy]
+                    currentPlayer.moves[index] = decoy + 5
+                    currentPlayer.enemy.tiles[index] = decoy + 5
+                    leftGrid:setTiles(currentPlayer.moves, 10)
+                    gfx.sprite.update()
+                    playdate.timer.performAfterDelay(2000, function()
+                        gridMsg = "Make your move"
+                        playerChangeInit("playing")
+                        rightGrid:setTiles(currentPlayer.tiles, 10)
+                        leftGrid:setTiles(currentPlayer.moves, 10)
+                    end)
+                end)
             else
-                gridMsg = "Make your move"
-                playerChangeInit("playing")
-                rightGrid:setTiles(currentPlayer.tiles, 10)
-                leftGrid:setTiles(currentPlayer.moves, 10)
+                playdate.timer.performAfterDelay(2000, function()
+                    if currentPlayer.totalHits == currentPlayer.enemy.shipLength then
+                        gameOverInit()
+                    else
+                        gridMsg = "Make your move"
+                        playerChangeInit("playing")
+                        rightGrid:setTiles(currentPlayer.tiles, 10)
+                        leftGrid:setTiles(currentPlayer.moves, 10)
+                    end
+                end)
             end
         end
     end

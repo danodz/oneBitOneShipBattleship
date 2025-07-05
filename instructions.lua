@@ -17,7 +17,7 @@ local part1 = gfx.imageWithText([[
 *First phase of the game: board setup*
 -Use the crank to select the type of tile to place. ]], 380, 10000)
 local tileSelectionGif = gfx.imagetable.new("images/tileSelection")
-local part2 = gfx.animation.loop.new(50,tileSelectionGif)
+local part2 = gfx.animation.loop.new(25,tileSelectionGif)
 local part3 = gfx.imageWithText([[
 -Move around your cursor on the board. Press A to place a tile.
 
@@ -35,7 +35,7 @@ local part5 = gfx.imageWithText([[
 -Decoys will show a “It’s a hit!” message when discovered by the other player, before revealing what they truly are. They’re only there to play with the player’s heart!
 ]], 380, 10000)
 local decoyGif = gfx.imagetable.new("images/decoy")
-local part6 = gfx.animation.loop.new(100,decoyGif)
+local part6 = gfx.animation.loop.new(40,decoyGif)
 local part7 = gfx.imageWithText([[
 
 -Decoys are optional. You can place a maximum of 5. They can be placed anywhere.

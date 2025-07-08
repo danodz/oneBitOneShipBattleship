@@ -12,7 +12,6 @@ import "newGame"
 import "instructions"
 
 local gfx <const> = playdate.graphics
-local geo <const> = playdate.geometry
 
 positions = {
     setupGrid = {x=110,y=10},

@@ -5,7 +5,6 @@ import "CoreLibs/timer"
 import "tileImages"
 
 local gfx <const> = playdate.graphics
-local geo <const> = playdate.geometry
 function tileImages()
     local font = gfx.font.new("fonts/Pedallica/font-pedallica")
     

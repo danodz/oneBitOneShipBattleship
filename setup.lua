@@ -1,5 +1,4 @@
 local gfx <const> = playdate.graphics
-local geo <const> = playdate.geometry
 
 local invCursor
 local inventory

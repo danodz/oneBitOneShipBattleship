@@ -1,5 +1,4 @@
 local gfx <const> = playdate.graphics
-local geo <const> = playdate.geometry
 local overlayImg = gfx.image.new(400, 240, gfx.kColorWhite)
 gfx.pushContext(overlayImg)
     gfx.drawTextInRect("Pass the playdate",0,75, 400, 240, nil, nil, kTextAlignment.center)

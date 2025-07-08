@@ -3,7 +3,6 @@ import "CoreLibs/graphics"
 import "CoreLibs/sprites"
 import "CoreLibs/timer"
 local gfx <const> = playdate.graphics
-local geo <const> = playdate.geometry
 
 function newGame()
     gameState = "setup"

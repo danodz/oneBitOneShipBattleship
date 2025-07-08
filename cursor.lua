@@ -4,7 +4,6 @@ import "CoreLibs/sprites"
 import "CoreLibs/timer"
 
 local gfx <const> = playdate.graphics
-local geo <const> = playdate.geometry
 
 local cursorImg = gfx.image.new(22, 22, gfx.kColorBlack)
 gfx.pushContext(cursorImg)

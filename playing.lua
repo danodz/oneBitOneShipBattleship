@@ -1,5 +1,4 @@
 local gfx <const> = playdate.graphics
-local geo <const> = playdate.geometry
 
 function playingInit()
     gridMsg = "Make your move"

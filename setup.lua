@@ -7,6 +7,8 @@ local validGrid
 local shipLength
 local crankMove
 local inventoryX
+local lastInput
+
 function setupInit()
     
     local invCursorImg = gfx.image.new(22, 22, gfx.kColorBlack)
@@ -19,7 +21,6 @@ function setupInit()
         y=1,
         sprite= gfx.sprite.new(invCursorImg)
     }
-    invCursor.sprite:add()
     
     local inventoryTiles = {1,2,5}
     inventory = gfx.tilemap.new()
@@ -28,7 +29,11 @@ function setupInit()
     inventorySprite = gfx.sprite.new(inventory)
     inventorySprite:setCenter(0,0)
     inventorySprite:moveTo(positions.inventory.x, positions.inventory.y)
-    inventorySprite:add()
+
+    if inputType == "crank" then
+        invCursor.sprite:add()
+        inventorySprite:add()
+    end
 
     validGrid = false
     gridMsg = "Make your ship"
@@ -91,6 +96,17 @@ function validateGrid(grid)
 end
 
 function setupUpdate()
+    if lastInput ~= inputType then
+        if inputType == "crank" then
+            invCursor.sprite:add()
+            inventorySprite:add()
+        elseif inputType == "cycle" then
+            invCursor.sprite:remove()
+            inventorySprite:remove()
+        end
+    end
+    lastInput = inputType
+
     if playdate.buttonJustPressed(playdate.kButtonA) then
         local tile
         if inputType == "crank" then

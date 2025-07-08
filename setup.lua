@@ -92,7 +92,18 @@ end
 
 function setupUpdate()
     if playdate.buttonJustPressed(playdate.kButtonA) then
-        leftGrid:setTileAtPosition(cursor.x,cursor.y,inventory:getTiles()[invCursor.x])
+        local tile
+        if inputType == "crank" then
+            leftGrid:setTileAtPosition(cursor.x,cursor.y,inventory:getTiles()[invCursor.x])
+        elseif inputType == "cycle" then
+            local tile = leftGrid:getTileAtPosition(cursor.x,cursor.y)
+            tile += 1
+            local _,length = inventory:getTiles()
+            if tile > length then
+                tile = 1
+            end
+            leftGrid:setTileAtPosition(cursor.x,cursor.y,inventory:getTiles()[tile])
+        end
         validGrid, gridMsg, shipLength = validateGrid(leftGrid)
     end
 

@@ -27,10 +27,23 @@ positions = {
 local menuImg = gfx.image.new(400,240, gfx.kColorWhite)
 local menuMargin = 5
 
-playdate.getSystemMenu():addMenuItem("Instructions", function()
+inputType=""
+if playdate.isCrankDocked() then
+    inputType = "cycle"
+else
+    inputType = "crank"
+end
+    
+local systemMenu = playdate.getSystemMenu()
+
+systemMenu:addMenuItem("Instructions", function()
     if gameState ~= "instructions" then
         instructionsInit()
     end
+end)
+
+systemMenu:addOptionsMenuItem("Input", {"cycle", "crank"}, inputType, function(type)
+    inputType = type
 end)
 
 decoyLimit = 5

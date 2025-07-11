@@ -138,8 +138,8 @@ function setupUpdate()
         else
             leftGrid:setTiles(emptyGrid, 10)
             playerChangeInit("setup")
-            validGrid = false
             gridMsg = "Make your ship"
+            validGrid = false
             crankMove = 0
         end
     end

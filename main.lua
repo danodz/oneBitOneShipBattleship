@@ -77,7 +77,7 @@ newGame()
 function playdate.update()
     if gameState == "instructions" then
         instructionsUpdate()
-    elseif gameState ~= "idle" then
+    elseif gameState ~= "playerChangeWait" then
         if playdate.buttonJustPressed(playdate.kButtonUp) and cursor.y > 1 then
             cursor.y -= 1
         end

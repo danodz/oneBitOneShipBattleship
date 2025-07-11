@@ -45,6 +45,34 @@ function newGame()
     
     gridMsg = ""
     gridMsgSprite = txtSprite(positions.gridMsg.x,positions.gridMsg.y,250,25,function(sprite)
+        if sprite.oldText ~= gridMsg then
+            if gameState == "playing" or gameState == "playerChangeWait" then
+                
+                local duration = 0
+                local shakeState = 0
+                local amplitude = 4
+                playdate.timer.keyRepeatTimerWithDelay(5,5, function(timer)
+                    duration += 1
+                    shakeState += 1
+                    if shakeState % 5 == 0 then
+                        sprite:moveBy(0,amplitude)
+                    elseif shakeState % 5 == 1 then
+                        sprite:moveBy(amplitude,-amplitude)
+                    elseif shakeState % 5 == 2 then
+                        sprite:moveBy(-amplitude,amplitude)
+                    elseif shakeState % 5 == 3 then
+                        sprite:moveBy(-amplitude,-amplitude)
+                    elseif shakeState % 5 == 4 then
+                        sprite:moveBy(amplitude,0)
+                    end
+                    if duration == 30 then
+                        sprite:moveTo(positions.gridMsgPlaying.x, positions.gridMsgPlaying.y)
+                        timer:remove()
+                    end
+                end)
+
+            end
+        end
         sprite.currentText = gridMsg
     end)
     

@@ -27,12 +27,7 @@ positions = {
 local menuImg = gfx.image.new(400,240, gfx.kColorWhite)
 local menuMargin = 5
 
-inputType=""
-if playdate.isCrankDocked() then
-    inputType = "cycle"
-else
-    inputType = "crank"
-end
+inputType = "cycle"
     
 local systemMenu = playdate.getSystemMenu()
 

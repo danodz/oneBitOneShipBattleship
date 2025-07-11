@@ -101,9 +101,17 @@ function instructionsUpdate()
         overlaySprite:remove()
         gameState = returnState
     end
-    if instrSprites[1].y-playdate.getCrankChange() < 100 and instrSprites[1].y-playdate.getCrankChange() > (-maxScroll)+100 then
+
+    local moveBy = -playdate.getCrankChange()
+    if playdate.buttonIsPressed(playdate.kButtonUp) then
+        moveBy = 10
+    elseif playdate.buttonIsPressed(playdate.kButtonDown) then
+        moveBy = -10
+    end
+
+    if instrSprites[1].y+moveBy < 100 and instrSprites[1].y+moveBy > (-maxScroll)+100 then
         for _,sprite in ipairs(instrSprites) do
-            sprite:moveBy(0, -playdate.getCrankChange())
+            sprite:moveBy(0, moveBy)
         end
     end
 end

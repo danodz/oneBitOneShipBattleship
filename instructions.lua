@@ -31,13 +31,13 @@ local part3 = gfx.imageWithText([[
 local part4 = gfx.image.new("images/exampleShips")
 local part5 = gfx.imageWithText([[
 
--Decoys will show a “It’s a hit!” message when discovered by the other player, before revealing what they truly are. They’re only there to play with the player’s heart!
+--Decoys will show a “It’s a hit!” message when discovered by the other player, before showing another random message. They’re only there to play with the player’s heart! It will make them believe for a second that they hit a ship (and give them that sweet sweet dopamine hit), before disappointing them.
 ]], 380, 10000)
 local decoyGif = gfx.imagetable.new("images/decoy")
 local part6 = gfx.animation.loop.new(40,decoyGif)
 local part7 = gfx.imageWithText([[
 
--Decoys are optional. You can place a maximum of 5. They can be placed anywhere.
+-You have to place between 1 and 5 decoy(s) on the map. They can be placed anywhere.
 
 Second phase of the game: find the enemy’s boat
 This part plays exactly like regular battleship! 

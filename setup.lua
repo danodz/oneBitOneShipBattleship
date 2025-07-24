@@ -59,15 +59,19 @@ function validateGrid(grid)
         end
     end
 
-    if totalDecoys > decoyLimit then
-        return false, "Too many decoys"
-    end
-
     if totalShips < 2 then
         return false, "Ship too small"
     end
     if totalShips > 10 then
         return false, "Ship too big"
+    end
+
+    if totalDecoys > decoyLimit then
+        return false, "Too many decoys"
+    end
+
+    if totalDecoys < 1 then
+        return false, "Place at least one decoy"
     end
 
     local adjacentShips = 0

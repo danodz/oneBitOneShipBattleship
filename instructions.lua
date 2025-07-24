@@ -39,7 +39,7 @@ local part7 = gfx.imageWithText([[
 
 -You have to place between 1 and 5 decoy(s) on the map. They can be placed anywhere.
 
-Second phase of the game: find the enemy’s boat
+*Second phase of the game: find the enemy’s boat*
 This part plays exactly like regular battleship! 
 
 -Move around your cursor on the board. Press A when you want to check a tile. 

@@ -14,11 +14,10 @@ local part1 = gfx.imageWithText([[
 1-bit-1-ship-battleship plays very similarly to regular battleship, with a few twists!
 
 *First phase of the game: board setup*
--Use the crank to select the type of tile to place. ]], 380, 10000)
+-Move around your cursor on the board. Press A to place a tile; press again to cycle through the tile types (or if you go in the menu and change the input type, you can select the tile type to place with your crank). ]], 380, 10000)
 local tileSelectionGif = gfx.imagetable.new("images/tileSelection")
 local part2 = gfx.animation.loop.new(25,tileSelectionGif)
 local part3 = gfx.imageWithText([[
--Move around your cursor on the board. Press A to place a tile.
 
 -White = empty tile; Black = ship; D = decoy
 
@@ -31,7 +30,7 @@ local part3 = gfx.imageWithText([[
 local part4 = gfx.image.new("images/exampleShips")
 local part5 = gfx.imageWithText([[
 
---Decoys will show a “It’s a hit!” message when discovered by the other player, before showing another random message. They’re only there to play with the player’s heart! It will make them believe for a second that they hit a ship (and give them that sweet sweet dopamine hit), before disappointing them.
+-Decoys will show a “It’s a hit!” message when discovered by the other player, before showing another fun message. They’re only there to play with the player’s heart! It will make them believe for a second that they hit a ship (and give them that sweet sweet dopamine hit), before disappointing them.
 ]], 380, 10000)
 local decoyGif = gfx.imagetable.new("images/decoy")
 local part6 = gfx.animation.loop.new(40,decoyGif)

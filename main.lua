@@ -73,22 +73,38 @@ function playdate.update()
     if gameState == "instructions" then
         instructionsUpdate()
     elseif gameState ~= "playerChangeWait" then
-        if playdate.buttonJustPressed(playdate.kButtonUp) and cursor.y > 1 then
-            cursor.y -= 1
+        if playdate.buttonJustPressed(playdate.kButtonUp) and cursor.y > 0 then
+            if cursor.y == 1 then
+                cursor.y = 10
+            else
+                cursor.y -= 1
+            end
         end
     
-        if playdate.buttonJustPressed(playdate.kButtonDown) and cursor.y < 10 then
-            cursor.y += 1
+        if playdate.buttonJustPressed(playdate.kButtonDown) and cursor.y < 11 then
+            if cursor.y == 10 then
+                cursor.y = 1
+            else
+                cursor.y += 1
+            end
         end
     
-        if playdate.buttonJustPressed(playdate.kButtonLeft) and cursor.x > 1 then
-            cursor.x -= 1
+        if playdate.buttonJustPressed(playdate.kButtonLeft) and cursor.x > 0 then
+            if cursor.x == 1 then
+                cursor.x = 10
+            else
+                cursor.x -= 1
+            end
         end
     
-        if playdate.buttonJustPressed(playdate.kButtonRight) and cursor.x < 10 then
-            cursor.x += 1
+        if playdate.buttonJustPressed(playdate.kButtonRight) and cursor.x < 11 then
+            if cursor.x == 10 then
+                cursor.x = 1
+            else
+                cursor.x += 1
+            end
         end
-        
+
         cursor.sprite:moveTo(
             (cursor.x-1)*18+cursor.sprite.width/2 - 2 + cursor.offset,
             (cursor.y-1)*18+cursor.sprite.height - 3

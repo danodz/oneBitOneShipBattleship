@@ -98,8 +98,8 @@ function newGame()
         gfx.fillCircleAtPoint(11,11,9)
     gfx.popContext()
     cursor = {
-        x=1,
-        y=1,
+        x=5,
+        y=5,
         offset=leftGridSprite.x,
         sprite= gfx.sprite.new(cursorImg)
     }

@@ -130,8 +130,8 @@ function setupUpdate()
     if playdate.buttonJustPressed(playdate.kButtonB) and validGrid then
         currentPlayer.tiles = leftGrid:getTiles()
         currentPlayer.shipLength = shipLength
-        cursor.x=1
-        cursor.y=1
+        cursor.x=5
+        cursor.y=5
         invCursor.x=2
         invCursor.y=1
         if currentPlayer.name == "Player 2" then

@@ -21,8 +21,8 @@ end
 
 function playerChangeUpdate()
     if playdate.buttonJustPressed(playdate.kButtonB) then
-        cursor.x=1
-        cursor.y=1
+        cursor.x=5
+        cursor.y=5
         overlaySprite:remove()
         gameState = returnState
 

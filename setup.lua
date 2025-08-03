@@ -99,6 +99,8 @@ function validateGrid(grid)
     end
 end
 
+local noShake = {"Valid grid, press B to proceed", "Make your move", "Make your ship"}
+local shakeTimer = 0
 function setupUpdate()
     if lastInput ~= inputType then
         if inputType == "crank" then
@@ -146,6 +148,22 @@ function setupUpdate()
             validGrid = false
             crankMove = 0
         end
+    elseif playdate.buttonJustPressed(playdate.kButtonB) then
+        gridMsgSprite.shake = true
+    end
+
+    local currentInput = playdate.getButtonState()
+    if currentInput == 0 then
+        if shakeTimer == 0 then
+            shakeTimer = playdate.timer.performAfterDelay(7000,function()
+                gridMsgSprite.shake = true
+                shakeTimer:remove()
+                shakeTimer = 0
+            end)
+        end
+    elseif shakeTimer ~= 0 then
+        shakeTimer:remove()
+        shakeTimer = 0
     end
 
     local change = playdate.getCrankChange()

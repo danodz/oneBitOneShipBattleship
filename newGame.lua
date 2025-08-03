@@ -44,53 +44,52 @@ function newGame()
     rightGridSprite:moveTo(positions.rightGrid.x,positions.rightGrid.y)
     
     gridMsg = ""
-    local noShake = {"Valid grid, press B to proceed", "Make your move", "Make your ship"}
     local previousTimer = 0
     gridMsgSprite = txtSprite(positions.gridMsg.x,positions.gridMsg.y,250,25,function(sprite)
-        if sprite.oldText ~= gridMsg then
-            if previousTimer ~= 0 then
-                if gameState ~= "playing" then
-                    sprite:moveTo(positions.gridMsg.x, positions.gridMsg.y)
-                else
-                    sprite:moveTo(positions.gridMsgPlaying.x, positions.gridMsgPlaying.y)
+        if sprite.oldText ~= gridMsg and previousTimer ~= 0 then
+            if gameState ~= "playing" then
+                sprite:moveTo(positions.gridMsg.x, positions.gridMsg.y)
+            else
+                sprite:moveTo(positions.gridMsgPlaying.x, positions.gridMsgPlaying.y)
+            end
+            previousTimer:remove()
+            previousTimer = 0 
+        end
+        if sprite.shake and previousTimer == 0 then
+            sprite.shake = false
+            local duration = 0
+            local shakeState = 0
+            local amplitude = 4
+            previousTimer = playdate.timer.keyRepeatTimerWithDelay(5,5, function(timer)
+                duration += 1
+                shakeState += 1
+                if shakeState % 5 == 0 then
+                    sprite:moveBy(0,amplitude)
+                elseif shakeState % 5 == 1 then
+                    sprite:moveBy(amplitude,-amplitude)
+                elseif shakeState % 5 == 2 then
+                    sprite:moveBy(-amplitude,amplitude)
+                elseif shakeState % 5 == 3 then
+                    sprite:moveBy(-amplitude,-amplitude)
+                elseif shakeState % 5 == 4 then
+                    sprite:moveBy(amplitude,0)
                 end
-                previousTimer:remove()
-                previousTimer = 0 
-            end
-            if table.indexOfElement(noShake, gridMsg) == nil then
-                
-                local duration = 0
-                local shakeState = 0
-                local amplitude = 4
-                previousTimer = playdate.timer.keyRepeatTimerWithDelay(5,5, function(timer)
-                    duration += 1
-                    shakeState += 1
-                    if shakeState % 5 == 0 then
-                        sprite:moveBy(0,amplitude)
-                    elseif shakeState % 5 == 1 then
-                        sprite:moveBy(amplitude,-amplitude)
-                    elseif shakeState % 5 == 2 then
-                        sprite:moveBy(-amplitude,amplitude)
-                    elseif shakeState % 5 == 3 then
-                        sprite:moveBy(-amplitude,-amplitude)
-                    elseif shakeState % 5 == 4 then
-                        sprite:moveBy(amplitude,0)
+                if duration == 30 then
+                    if gameState == "setup" then
+                        sprite:moveTo(positions.gridMsg.x, positions.gridMsg.y)
+                    else
+                        sprite:moveTo(positions.gridMsgPlaying.x, positions.gridMsgPlaying.y)
                     end
-                    if duration == 30 then
-                        if gameState == "setup" then
-                            sprite:moveTo(positions.gridMsg.x, positions.gridMsg.y)
-                        else
-                            sprite:moveTo(positions.gridMsgPlaying.x, positions.gridMsgPlaying.y)
-                        end
-                        previousTimer = 0 
-                        timer:remove()
-                    end
-                end)
-
-            end
+                    previousTimer = 0 
+                    timer:remove()
+                end
+            end)
+        elseif sprite.shake then
+            sprite.shake = false
         end
         sprite.currentText = gridMsg
     end)
+    gridMsgSprite.shake = false
     
     local cursorImg = gfx.image.new(22, 22, gfx.kColorBlack)
     gfx.pushContext(cursorImg)
